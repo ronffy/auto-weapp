@@ -1,7 +1,6 @@
 {
-  "name": "electron001",
+  "name": "auto-weapp",
   "version": "1.0.0",
-  "description": "",
   "main": "main.js",
   "scripts": {
     "start": "electron .",
@@ -12,5 +11,19 @@
   "devDependencies": {
     "@types/electron": "^1.6.10",
     "electron": "^6.0.7"
-  }
+  },
+  "dependencies": {},
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ronffy/autoweapp.git"
+  },
+  "keywords": [
+    "weapp",
+    "electron"
+  ],
+  "bugs": {
+    "url": "https://github.com/ronffy/autoweapp/issues"
+  },
+  "homepage": "https://github.com/ronffy/autoweapp#readme",
+  "description": ""
 }
