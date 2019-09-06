@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>小程序自动预览、部署系统</title>
+  <script>
+        // require('electron').ipcRenderer.on('ping', (event, message) => {
+        //   console.log(message) // Prints 'whoooooooh!'，这里的message是object类型
+        // })
+
+  </script>
+  <link rel="stylesheet" href="./renderer/reset.css">
+  <link rel="stylesheet" href="./renderer/style.css">
+</head>
+
+<body>
+
+  <div id="root" class="root">
+    <h1 class="u-title">小程序自动预览、部署系统</h1>
+
+
+    <div>
+      <h3>选择分支</h3>
+      <select name="master" id="branch-select">
+        <option value="master">master</option>
+      </select>
+      <button class="u-btn u-btn-primary">拉取代码</button>
+    </div>
+
+    <hr>
+
+    <div>
+      <button id="btn-preview" class="u-btn u-btn-primary">预览</button>
+      <button id="btn-upload" class="u-btn u-btn-primary">上传</button>
+    </div>
+
+    <div id="info-container"></div>
+
+  </div>
+
+
+  <script src="./renderer/utils.js"></script>
+  <script src="./renderer/index.js"></script>
+</body>
+
+</html>
