@@ -7,8 +7,8 @@ const { app, BrowserWindow } = electron;
 function createWindow(params) {
 	// 创建浏览器窗口
 	const win = new BrowserWindow({
-		width: 800,
-		height: 600,
+		width: 1400,
+		height: 800,
 		center: true,
 		title: '自动预览、提交小程序',
 		webPreferences: {
