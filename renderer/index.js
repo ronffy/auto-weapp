@@ -3,34 +3,82 @@ const strTemplate = utils.strTemplate;
 const preBase64 = 'data:image/png;base64,';
 
 window.onload = () => {
-
+  const $loading = document.getElementById('loading');
 
   // 拉取代码
   document.getElementById('btn-pullbranch').addEventListener('click', () => {
-    git.pull();
+    $loading.style = 'z-index: 1';
+    $loading.innerHTML = '准备开始拉取代码...';
+    git.pull({
+      onProcess({ text, status }) {
+        if (status === 'padding') {
+          $loading.style = 'z-index: 1';
+          $loading.innerHTML = text;
+        } else {
+          $loading.style = 'z-index: -1';
+          $loading.innerHTML = '';
+        }
+      }
+    });
   });
 
   // 打包
   document.getElementById('btn-dev').addEventListener('click', () => {
-    taro.pack();
+    $loading.style = 'z-index: 1';
+    $loading.innerHTML = '准备开始打包...';
+    taro.pack({
+      onProcess({ text, status }) {
+        if (status === 'padding') {
+          $loading.style = 'z-index: 1';
+          $loading.innerHTML = text;
+        } else {
+          $loading.style = 'z-index: -1';
+          $loading.innerHTML = '';
+        }
+      }
+    });
   })
 
 
   // 预览事件
   document.getElementById('btn-preview').addEventListener('click', () => {
-    weapp.preview(data => setInfoContainer(`<img src="${preBase64 + data}" alt="小程序预览二维码">`));
+    weapp.preview({
+      onProcess({ text, status }) {
+        if (status === 'padding') {
+          $loading.style = 'z-index: 1';
+          $loading.innerHTML = text;
+        } else {
+          $loading.style = 'z-index: -1';
+          $loading.innerHTML = '';
+        }
+      },
+      onEnd(data) {
+        setInfoContainer(`<img src="${preBase64 + data}" alt="小程序预览二维码">`)
+      }
+    });
   });
 
   // 上传事件
   document.getElementById('btn-upload').addEventListener('click', () => {
-    weapp.upload(data => {
-      if (!data) {
-        return;
+    weapp.upload({
+      onProcess({ text, status }) {
+        if (status === 'padding') {
+          $loading.style = 'z-index: 1';
+          $loading.innerHTML = text;
+        } else {
+          $loading.style = 'z-index: -1';
+          $loading.innerHTML = '';
+        }
+      },
+      onEnd(data) {
+        if (!data) {
+          return;
+        }
+        if (typeof data === 'string') {
+          data = JSON.parse(data);
+        }
+        setInfoContainer(getUploadInfoHtml(data.size))
       }
-      if (typeof data === 'string') {
-        data = JSON.parse(data);
-      }
-      setInfoContainer(getUploadInfoHtml(data.size))
     });
   });
   
