@@ -5,7 +5,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
-  <title>小程序自动预览、部署系统</title>
+  <title>Sanji 小程序自动预览、部署系统</title>
   <script>
         // require('electron').ipcRenderer.on('ping', (event, message) => {
         //   console.log(message) // Prints 'whoooooooh!'，这里的message是object类型
@@ -13,24 +13,32 @@
 
   </script>
   <link rel="stylesheet" href="./renderer/reset.css">
+  <link rel="stylesheet" href="./renderer/common.css">
   <link rel="stylesheet" href="./renderer/style.css">
 </head>
 
 <body>
-
   <div id="loading" class="layout-loading">loading...</div>
 
   <div id="root" class="root">
-    <h1 class="u-title">小程序自动预览、部署系统</h1>
+    <h1 class="h1-title">SANJI</h1>
 
-
-    <div>
-      <h3>选择分支</h3>
-      <select name="master" id="branch-select">
-        <option value="master">master</option>
-      </select>
-      <button id="btn-pullbranch" class="u-btn u-btn-primary">拉取代码</button>
-      <button id="btn-dev" class="u-btn u-btn-primary">打包</button>
+    <div class="layout-form">
+      <label class="u-label" for="project-input">
+        项目地址:
+        <input class="u-input" id="project-input" type="text" placeholder="请输入项目地址" />
+      </label>
+      <label class="u-label" for="branch-input">
+        分支名称:
+        <input class="u-input" type="text" id="branch-input" placeholder="请输入分支名称" value="master" />
+      </label>
+      <label class="u-label" for="taro-checkbox">
+        使用Taro:
+        <input id="taro-checkbox" type="checkbox" />
+      </label>
+      <label class="u-label" for="btn-upweapp">
+        <button id="btn-upweapp" class="u-btn u-btn-primary">更新小程序</button>
+      </label>
     </div>
 
     <hr>

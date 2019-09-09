@@ -6,38 +6,38 @@ window.onload = () => {
   const $loading = document.getElementById('loading');
 
   // 拉取代码
-  document.getElementById('btn-pullbranch').addEventListener('click', () => {
-    $loading.style = 'z-index: 1';
-    $loading.innerHTML = '准备开始拉取代码...';
-    git.pull({
-      onProcess({ text, status }) {
-        if (status === 'padding') {
-          $loading.style = 'z-index: 1';
-          $loading.innerHTML = text;
-        } else {
-          $loading.style = 'z-index: -1';
-          $loading.innerHTML = '';
-        }
-      }
-    });
-  });
+  // document.getElementById('btn-pullbranch').addEventListener('click', () => {
+  //   $loading.style = 'z-index: 1';
+  //   $loading.innerHTML = '准备开始拉取代码...';
+  //   git.pull({
+  //     onProcess({ text, status }) {
+  //       if (status === 'padding') {
+  //         $loading.style = 'z-index: 1';
+  //         $loading.innerHTML = text;
+  //       } else {
+  //         $loading.style = 'z-index: -1';
+  //         $loading.innerHTML = '';
+  //       }
+  //     }
+  //   });
+  // });
 
   // 打包
-  document.getElementById('btn-dev').addEventListener('click', () => {
-    $loading.style = 'z-index: 1';
-    $loading.innerHTML = '准备开始打包...';
-    taro.pack({
-      onProcess({ text, status }) {
-        if (status === 'padding') {
-          $loading.style = 'z-index: 1';
-          $loading.innerHTML = text;
-        } else {
-          $loading.style = 'z-index: -1';
-          $loading.innerHTML = '';
-        }
-      }
-    });
-  })
+  // document.getElementById('btn-dev').addEventListener('click', () => {
+  //   $loading.style = 'z-index: 1';
+  //   $loading.innerHTML = '准备开始打包...';
+  //   taro.pack({
+  //     onProcess({ text, status }) {
+  //       if (status === 'padding') {
+  //         $loading.style = 'z-index: 1';
+  //         $loading.innerHTML = text;
+  //       } else {
+  //         $loading.style = 'z-index: -1';
+  //         $loading.innerHTML = '';
+  //       }
+  //     }
+  //   });
+  // })
 
 
   // 预览事件

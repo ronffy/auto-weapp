@@ -156,8 +156,9 @@ const git = ((window) => {
           if (err || !data) {
             await gitLogin(params);
             await gitClone(params);
+          } else {
+            await gitPull(params);
           }
-          await gitPull(params);
           res();
         } catch (error) {
           rej(error)
