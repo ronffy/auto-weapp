@@ -1,0 +1,34 @@
+{
+  "parser": "@typescript-eslint/parser",
+  "parserOptions": {
+    "ecmaFeatures": {
+      "jsx": true,
+      "modules": true
+    },
+    "ecmaVersion": 6,
+    "sourceType": "module",
+    "useJSXTextNode": true,
+    "project": "./tsconfig.json",
+    "extraFileExtensions": [
+      ".ts",
+      ".tsx"
+    ]
+  },
+  "plugins": [
+    "@typescript-eslint",
+    "react"
+  ],
+  "env": {
+    "browser": true,
+    "node": true,
+    "commonjs": true,
+    "es6": true,
+    "jest": true
+  },
+  "rules": {
+    "no-undef": 1,
+    "quotes": [1, "single"],
+    "no-unused-vars": 0,
+    "no-console": 0
+  }
+}
