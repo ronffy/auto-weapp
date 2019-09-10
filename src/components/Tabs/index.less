@@ -1,0 +1,29 @@
+:global {
+  .tabs-nav {
+    border-bottom: 1px solid #ccc;
+
+    & .tabs-tab {
+      float: left;
+      padding: 5px 10px;
+      color: black;
+      cursor: pointer;
+    }
+
+    & .tabs-tab-active {
+      color: #1890ff;
+    }
+  }
+
+
+  .tabs-content {
+    margin-top: 10px;
+
+    & .tabs-tabpane {
+      display: none;
+    }
+
+    & .tabs-tabpane-active {
+      display: block;
+    }
+  }
+}
