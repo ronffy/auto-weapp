@@ -20,7 +20,7 @@ function createWindow(params) {
 	});
 
 	// 加载应用的 html
-	win.loadFile('index.html');
+	win.loadFile(`${__dirname}/dist/index.html`);
 
 	// 打开开发者工具
 	win.webContents.openDevTools();

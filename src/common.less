@@ -1,0 +1,22 @@
+:global {
+  ::selection {
+    color: #fff;
+    background: #1890ff
+  }
+
+  // mixins for clearfix
+  // ------------------------
+  .clearfix {
+    zoom: 1;
+
+    &::before,
+    &::after {
+      display: table;
+      content: '';
+    }
+
+    &::after {
+      clear: both;
+    }
+  }
+}
