@@ -21,7 +21,7 @@ const rules = [
         options: {
           modules: {
             mode: 'local',
-            localIdentName: '[name][local]--[hash:base64:5]',
+            localIdentName: '[name]--[local]_[hash:base64:5]',
             context: path.resolve(__dirname, 'src'),
           },
         },
@@ -81,11 +81,12 @@ module.exports.common = function (env) {
     entry: {
       index: 'index.tsx',
     },
+    target: 'electron-renderer',
     output: {
       path: PATHS.dist,
       filename: 'js/[name].[hash:8].js',
       chunkFilename: 'js/[name].[contenthash:8].js',
-      publicPath: isProduction ? publicPath : '/',
+      publicPath: isProduction ? publicPath : '',
       sourceMapFilename: 'souremaps/[file].map'
     },
 

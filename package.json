@@ -5,6 +5,7 @@
   "scripts": {
     "start": "electron .",
     "build": "webpack --env.production --config=./config/webpack.prod.js",
+    "dev": "webpack --env.devlopment --config=./config/webpack.dev.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "ronffy",
