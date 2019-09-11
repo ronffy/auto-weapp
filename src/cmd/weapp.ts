@@ -1,35 +1,46 @@
 const { spawn } = require('child_process');
 const fs = require('fs');
 const path = require('path');
+const cwd = process.cwd();
+
+type Status = 'fulfilled' | 'rejected' | 'padding';
+
+type ProcessParams = {
+  status: Status
+  text: string
+}
+type OnProcess = {
+  (params: ProcessParams): void
+}
+type OnEnd = {
+  (status: Status): void
+}
 
 // cmd命令
 const wechatInstallPath = '/Applications/wechatwebdevtools.app';
 const wechatCliPath = `${wechatInstallPath}/Contents/MacOS/cli`;
-const projectName = 'cpa';
-const projectRoot = path.join(__filename, '..', projectName, 'dist');
-const projectVersion = '1.0.16';
-const staticOutputPath = path.join(__filename, '..', projectName);
 
-// 预览
-const previewCmdParam = '-p';
-const previewOutputCmd = '--preview-qr-output';
-const previewOutputFile = `${staticOutputPath}/${projectVersion}.txt`;
-
-
-// 上传
-const uploadCmdParam = '-u';
-const uploadDescParam = '--upload-desc';
-const uploadOutputInfoParam = '--upload-info-output';
-const uploadDesc = '测试自动上传功能ii';
-const uploadOutputFile = `${staticOutputPath}/${projectVersion}.json`;
-
-function preview({ onProcess, onEnd } = {}) {
+type PreviewParams = {
+  projectName: string
+  version: string
+  onProcess?: OnProcess
+  onEnd?: OnEnd
+}
+function preview({ onProcess, onEnd, projectName, version }: PreviewParams): void {
   onProcess && onProcess({
     status: 'padding',
     text: '准备获取微信小程序预览文件...'
   });
 
-  let ls = spawn(wechatCliPath, [previewCmdParam, projectRoot, previewOutputCmd, `base64@${staticOutputPath}/${projectVersion}.txt`])
+  const projectRoot = path.join(cwd, projectName, 'dist');
+  const staticOutputPath = path.join(cwd, projectName);
+
+  // 预览
+  const previewCmdParam = '-p';
+  const previewOutputCmd = '--preview-qr-output';
+  const previewOutputFile = `${staticOutputPath}/${version}.txt`;
+
+  let ls = spawn(wechatCliPath, [previewCmdParam, projectRoot, previewOutputCmd, `base64@${staticOutputPath}/${version}.txt`])
 
   let spawning = false;
   ls.stdout.on('data', () => {
@@ -45,7 +56,7 @@ function preview({ onProcess, onEnd } = {}) {
 
   ls.stdout.on('end', () => {
     spawning = false;
-    console.log(`获取小程序预览文件:完成`);
+    console.log('获取小程序预览文件:完成');
     onProcess && onProcess({
       status: 'fulfilled',
       text: '获取小程序预览文件:完成'
@@ -56,7 +67,7 @@ function preview({ onProcess, onEnd } = {}) {
 
     if (onEnd) {
       fs.readFile(previewOutputFile, 'utf8', (err, data) => {
-        if (err, !data) {
+        if (err || !data) {
           return;
         }
         onEnd(data);
@@ -67,12 +78,12 @@ function preview({ onProcess, onEnd } = {}) {
 
   ls.stdout.on('close', () => {
     spawning = false;
-    console.log(`获取小程序预览文件:关闭`);
+    console.log('获取小程序预览文件:关闭');
   });
 
   ls.stdout.on('error', (err) => {
     spawning = false;
-    console.log(`获取小程序预览文件:失败,err:`, err);
+    console.log('获取小程序预览文件:失败,err:', err);
     onProcess && onProcess({
       status: 'rejected',
       text: '获取小程序预览文件:失败'
@@ -80,14 +91,29 @@ function preview({ onProcess, onEnd } = {}) {
   });
 }
 
-
-function upload({ onProcess, onEnd } = {}) {
+type UploadParams = {
+  projectName: string
+  desc: string
+  version: string
+  onProcess?: OnProcess
+  onEnd?: OnEnd
+}
+function upload({ onProcess, onEnd, projectName, desc, version }: UploadParams): void {
   onProcess && onProcess({
     status: 'padding',
     text: '准备上传小程序代码...'
   });
 
-  let ls = spawn(wechatCliPath, [uploadCmdParam, `${projectVersion}@${projectRoot}`, uploadDescParam, `'${uploadDesc}'`, uploadOutputInfoParam, uploadOutputFile])
+  const projectRoot = path.join(cwd, projectName, 'dist');
+  const staticOutputPath = path.join(cwd, projectName);
+
+  // 上传
+  const uploadCmdParam = '-u';
+  const uploadDescParam = '--upload-desc';
+  const uploadOutputInfoParam = '--upload-info-output';
+  const uploadOutputFile = `${staticOutputPath}/${version}.json`;
+
+  let ls = spawn(wechatCliPath, [uploadCmdParam, `${version}@${projectRoot}`, uploadDescParam, `'${desc}'`, uploadOutputInfoParam, uploadOutputFile])
 
   let spawning = false;
   ls.stdout.on('data', () => {
@@ -103,7 +129,7 @@ function upload({ onProcess, onEnd } = {}) {
 
   ls.stdout.on('end', () => {
     spawning = false;
-    console.log(`上传小程序代码:完成`);
+    console.log('上传小程序代码:完成');
     onProcess && onProcess({
       status: 'padding',
       text: '上传小程序代码:完成'
@@ -127,12 +153,12 @@ function upload({ onProcess, onEnd } = {}) {
 
   ls.stdout.on('close', () => {
     spawning = false;
-    console.log(`上传小程序代码:关闭`);
+    console.log('上传小程序代码:关闭');
   });
 
   ls.stdout.on('error', (err) => {
     spawning = false;
-    console.log(`上传小程序代码:失败,err:`, err);
+    console.log('上传小程序代码:失败,err:', err);
     onProcess && onProcess({
       status: 'rejected',
       text: '上传小程序代码:失败'

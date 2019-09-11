@@ -160,5 +160,5 @@ export default class UpdateProject extends React.PureComponent {
 function getProjectName(gitAddress: string) {
   const arr = gitAddress.split('/');
   const names = arr[arr.length - 1].split('.');
-  return names[names.length - 1];
+  return names[0];
 }

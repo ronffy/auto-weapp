@@ -1,6 +1,7 @@
 const { spawn } = require('child_process');
 const fs = require('fs');
 const path = require('path');
+const cwd = process.cwd();
 
 type Status = 'fulfilled' | 'rejected' | 'padding';
 
@@ -26,7 +27,7 @@ function _install({ onProcess, forceInstall, projectName }: InstallParams) {
   return new Promise((res, rej) => {
     try {
       if (!forceInstall) {
-        let data = fs.readdirSync(path.join(__filename, '..', projectName, 'node_modules'));
+        let data = fs.readdirSync(path.join(cwd, projectName, 'node_modules'));
         if (data) {
           res();
           return;
@@ -41,9 +42,10 @@ function _install({ onProcess, forceInstall, projectName }: InstallParams) {
       text: '准备下载项目依赖包...'
     });
 
-    let installNpm = spawn('npm', ['install'], {
-      cwd: path.join(__filename, '..', 'cpa')
+    let installNpm = spawn('npm', ['i'], {
+      cwd: path.join(cwd, projectName)
     });
+    
     installNpm.stdout.on('data', () => {
       onProcess && onProcess({
         status: 'padding',
@@ -68,6 +70,10 @@ function _install({ onProcess, forceInstall, projectName }: InstallParams) {
       });
       rej(err);
     })
+
+    installNpm.stderr.on('data', (data) => {
+      console.log(`install-stderr: ${data}`);
+    });
   })
 }
 
@@ -83,11 +89,16 @@ function _dev({ onProcess, script, projectName }: DevParams) {
       status: 'padding',
       text: '准备打包...'
     });
-
-    const [cmd, ...cmdParams] = script.split(' ');
-    let runDev = spawn(cmd, cmdParams, {
-      cwd: path.join(__filename, '..', projectName)
-    })
+    let runDev;
+    try {
+      const [cmd, ...cmdParams] = script.split(' ');
+      runDev = spawn(cmd, cmdParams, {
+        cwd: path.join(cwd, projectName)
+      })
+    } catch (error) {
+      console.warn('dev-spawn-error:', error);
+      return;
+    }
     runDev.stdout.on('data', () => {
       onProcess && onProcess({
         status: 'padding',

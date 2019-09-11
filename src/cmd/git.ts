@@ -1,6 +1,7 @@
 const { spawn } = require('child_process');
 const fs = require('fs');
 const path = require('path');
+const cwd = process.cwd();
 
 const gitCmd = 'git';
 const pullParam = 'pull';
@@ -33,7 +34,9 @@ function gitClone({ onProcess, onEnd, gitAddress }: GitCloneParams): Promise<voi
       text: '准备 clone git 项目...'
     });
 
-    const clone = spawn('git', ['clone', gitAddress]);
+    const clone = spawn('git', ['clone', gitAddress], {
+      cwd
+    });
 
     clone
       .stdout
@@ -48,13 +51,13 @@ function gitClone({ onProcess, onEnd, gitAddress }: GitCloneParams): Promise<voi
     clone
       .stderr
       .on('data', (data) => {
-        console.log(`stderr: ${data}`);
+        console.log(`git clone stderr: ${data}`);
       });
 
     clone
       .stdout
       .on('end', () => {
-        console.log('clone 完成');
+        console.log('git clone 完成');
         onProcess && onProcess({
           status: 'fulfilled',
           text: 'git clone:完成'
@@ -66,7 +69,7 @@ function gitClone({ onProcess, onEnd, gitAddress }: GitCloneParams): Promise<voi
     clone
       .stdout
       .on('error', err => {
-        console.warn('clone 失败，err:', err);
+        console.warn('git clone 失败，err:', err);
         onProcess && onProcess({
           status: 'padding',
           text: 'git clone:失败'
@@ -87,11 +90,13 @@ function gitPull({ onProcess, onEnd, branch }: GitPullParams): Promise<void> {
   return new Promise((res, rej) => {
     onProcess && onProcess({
       status: 'padding',
-      text: '准备 pull git 项目...'
+      text: '准备 git pull 项目...'
     });
     _branch = branch;
 
-    let ls = spawn(gitCmd, [pullParam, remoteParam, _branch])
+    let ls = spawn(gitCmd, [pullParam, remoteParam, _branch], {
+      cwd: path.join(cwd, projectName)
+    })
 
     let spawning = false;
     ls.stdout.on('data', () => {
@@ -102,13 +107,13 @@ function gitPull({ onProcess, onEnd, branch }: GitPullParams): Promise<void> {
 
       if (!spawning) {
         spawning = true;
-        console.log('拉取代码:拉取中...');
+        console.log('git pull:拉取中...');
       }
     });
 
     ls.stdout.on('end', () => {
       spawning = false;
-      console.log('拉取代码:完成');
+      console.log('git pull:完成');
 
       onProcess && onProcess({
         status: 'fulfilled',
@@ -121,12 +126,12 @@ function gitPull({ onProcess, onEnd, branch }: GitPullParams): Promise<void> {
 
     ls.stdout.on('close', () => {
       spawning = false;
-      console.log('拉取代码:关闭');
+      console.log('git pull:关闭');
     });
 
     ls.stdout.on('error', (err) => {
       spawning = false;
-      console.log('拉取代码:失败,err:', err);
+      console.log('git pull:失败,err:', err);
       onProcess && onProcess({
         status: 'rejected',
         text: 'git pull:失败'
@@ -153,7 +158,7 @@ const pull = ({
 
   projectName = getProjectName(gitAddress);
 
-  fs.readdir(path.join(__filename, '..', projectName), async (err, data) => {
+  fs.readdir(path.join(cwd, projectName), async (err, data) => {
     try {
       if (err || !data) {
         await gitClone({
@@ -178,7 +183,7 @@ const pull = ({
 function getProjectName(gitAddress: string) {
   const arr = gitAddress.split('/');
   const names = arr[arr.length - 1].split('.');
-  return names[names.length - 1];
+  return names[0];
 }
 
 
