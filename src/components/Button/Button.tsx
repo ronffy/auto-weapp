@@ -1,20 +1,26 @@
 
-import React from 'react';
+import React, { SFC, ButtonHTMLAttributes } from 'react';
 import classNames from 'classnames';
 import styles from './Button.less';
 
-export default class Button extends React.PureComponent {
+type Theme = 'default' | 'primary';
 
-  render() {
-    const { className, children, type = 'default',  ...otherProps } = this.props;
-    const classes = classNames(styles['u-btn'], styles[`u-btn-${type}`], className);
-    return (
-      <button
-        className={classes}
-        {...otherProps}
-      >
-        {children}
-      </button>
-    )
-  }
+interface Props extends ButtonHTMLAttributes<HTMLButtonElement> {
+  className?: string
+  theme: Theme
+  children: React.ReactNode
 }
+
+const Button: SFC<Props> = ({ className, children, theme = 'default', ...otherProps }) => {
+  const classes = classNames(styles['u-btn'], styles[`u-btn-${theme}`], className);
+  return (
+    <button
+      className={classes}
+      {...otherProps}
+    >
+      {children}
+    </button>
+  )
+}
+
+export default Button

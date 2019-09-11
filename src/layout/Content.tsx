@@ -1,9 +1,9 @@
 
 import React from 'react';
-import UpdateProject from '../../containers/UpdateProject';
-import UploadWeapp from '../../containers/UploadWeapp';
-import PreviewWeapp from '../../containers/PreviewWeapp';
-import Tabs, { TabPane } from '../../components/Tabs';
+import UpdateProject from '../containers/UpdateProject';
+import UploadWeapp from '../containers/UploadWeapp';
+import PreviewWeapp from '../containers/PreviewWeapp';
+import Tabs, { TabPane } from '../components/Tabs';
 import styles from './Content.less';
 
 export default class Content extends React.PureComponent {
@@ -21,7 +21,7 @@ export default class Content extends React.PureComponent {
     const { activeTabKey } = this.state;
 
     return (
-      <div>
+      <div className={styles['layout-content']}>
         <UpdateProject />
         <Tabs
           activeKey={activeTabKey}

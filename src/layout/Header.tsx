@@ -1,11 +1,12 @@
 
 import React from 'react';
+import styles from './Header.less';
 
 export default class Header extends React.PureComponent {
 
   render() {
     return (
-      <div>Header</div>
+      <div className={styles['layout-header']}>Zoro</div>
     )
   }
 }
