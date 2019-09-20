@@ -10,7 +10,7 @@ function createWindow(params) {
 		width: 1400,
 		height: 800,
 		center: true,
-		title: '自动预览、提交小程序',
+		title: 'Zoro 自动预览、提交小程序',
 		webPreferences: {
 			nodeIntegrationInWorker: true,
 			nodeIntegration: true,
