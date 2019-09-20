@@ -9,7 +9,7 @@ const remoteParam = 'origin';
 let _branch = 'master';
 let projectName;
 
-type Status = 'fulfilled' | 'rejected' | 'padding';
+type Status = 'fulfilled' | 'rejected' | 'pending';
 
 type ProcessParams = {
   status: Status
@@ -30,7 +30,7 @@ type GitCloneParams = {
 function gitClone({ onProcess, onEnd, gitAddress }: GitCloneParams): Promise<void> {
   return new Promise((res, rej) => {
     onProcess && onProcess({
-      status: 'padding',
+      status: 'pending',
       text: '准备 clone git 项目...'
     });
 
@@ -43,7 +43,7 @@ function gitClone({ onProcess, onEnd, gitAddress }: GitCloneParams): Promise<voi
       .on('data', () => {
         // console.log('chunk', chunk);
         onProcess && onProcess({
-          status: 'padding',
+          status: 'pending',
           text: '正在 clone git 项目...'
         });
       });
@@ -71,7 +71,7 @@ function gitClone({ onProcess, onEnd, gitAddress }: GitCloneParams): Promise<voi
       .on('error', err => {
         console.warn('git clone 失败，err:', err);
         onProcess && onProcess({
-          status: 'padding',
+          status: 'pending',
           text: 'git clone:失败'
         });
         onEnd && onEnd('rejected');
@@ -89,7 +89,7 @@ type GitPullParams = {
 function gitPull({ onProcess, onEnd, branch }: GitPullParams): Promise<void> {
   return new Promise((res, rej) => {
     onProcess && onProcess({
-      status: 'padding',
+      status: 'pending',
       text: '准备 git pull 项目...'
     });
     _branch = branch;
@@ -101,7 +101,7 @@ function gitPull({ onProcess, onEnd, branch }: GitPullParams): Promise<void> {
     let spawning = false;
     ls.stdout.on('data', () => {
       onProcess && onProcess({
-        status: 'padding',
+        status: 'pending',
         text: '正在 pull git 项目...'
       });
 

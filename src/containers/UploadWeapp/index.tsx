@@ -5,15 +5,30 @@ import { upload } from '../../cmd/weapp';
 import UploadInfo from './UploadInfo';
 import styles from './UploadWeapp.less';
 
-export default class UploadWeapp extends React.PureComponent {
-  state = {
-    uploadSizeData: null
-  }
+type UploadSizeData = {
+  packages: any[]
+  total: number
+}
+
+const initState = {
+  uploadSizeData: null
+}
+
+type State = {
+  uploadSizeData: UploadSizeData | null
+}
+
+export default class UploadWeapp extends React.PureComponent<any, State> {
+  state: State = initState
+
   handleUpload = () => {
     upload({
+      projectName: 'cpa',
+      desc: '测试自动发布',
+      version: '1.0.6',
       onProcess({ text, status }) {
-        if (status === 'padding') {
-
+        if (status === 'pending') {
+        
         } else {
 
         }
@@ -22,11 +37,8 @@ export default class UploadWeapp extends React.PureComponent {
         if (!data) {
           return;
         }
-        if (typeof data === 'string') {
-          data = JSON.parse(data);
-        }
         this.setState({
-          uploadSizeData: data
+          uploadSizeData: JSON.parse(data)
         })
       }
     });

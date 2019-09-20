@@ -3,7 +3,7 @@ const fs = require('fs');
 const path = require('path');
 const cwd = process.cwd();
 
-type Status = 'fulfilled' | 'rejected' | 'padding';
+type Status = 'fulfilled' | 'rejected' | 'pending';
 
 type ProcessParams = {
   status: Status
@@ -11,9 +11,6 @@ type ProcessParams = {
 }
 type OnProcess = {
   (params: ProcessParams): void
-}
-type OnEnd = {
-  (status: Status): void
 }
 
 // cmd命令
@@ -24,11 +21,11 @@ type PreviewParams = {
   projectName: string
   version: string
   onProcess?: OnProcess
-  onEnd?: OnEnd
+  onEnd?: (imgData: string) => void
 }
 function preview({ onProcess, onEnd, projectName, version }: PreviewParams): void {
   onProcess && onProcess({
-    status: 'padding',
+    status: 'pending',
     text: '准备获取微信小程序预览文件...'
   });
 
@@ -48,7 +45,7 @@ function preview({ onProcess, onEnd, projectName, version }: PreviewParams): voi
       spawning = true;
       console.log('获取小程序预览文件:获取中...');
       onProcess && onProcess({
-        status: 'padding',
+        status: 'pending',
         text: '正在获取微信小程序预览文件...'
       });
     }
@@ -96,11 +93,11 @@ type UploadParams = {
   desc: string
   version: string
   onProcess?: OnProcess
-  onEnd?: OnEnd
+  onEnd?: (fileData: string) => void
 }
 function upload({ onProcess, onEnd, projectName, desc, version }: UploadParams): void {
   onProcess && onProcess({
-    status: 'padding',
+    status: 'pending',
     text: '准备上传小程序代码...'
   });
 
@@ -121,7 +118,7 @@ function upload({ onProcess, onEnd, projectName, desc, version }: UploadParams):
       spawning = true;
       console.log('上传小程序代码:上传中...');
       onProcess && onProcess({
-        status: 'padding',
+        status: 'pending',
         text: '正在上传小程序代码...'
       });
     }
@@ -131,7 +128,7 @@ function upload({ onProcess, onEnd, projectName, desc, version }: UploadParams):
     spawning = false;
     console.log('上传小程序代码:完成');
     onProcess && onProcess({
-      status: 'padding',
+      status: 'pending',
       text: '上传小程序代码:完成'
     });
 

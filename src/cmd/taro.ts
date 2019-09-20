@@ -3,7 +3,7 @@ const fs = require('fs');
 const path = require('path');
 const cwd = process.cwd();
 
-type Status = 'fulfilled' | 'rejected' | 'padding';
+type Status = 'fulfilled' | 'rejected' | 'pending';
 
 type ProcessParams = {
   status: Status
@@ -38,7 +38,7 @@ function _install({ onProcess, forceInstall, projectName }: InstallParams) {
     }
 
     onProcess && onProcess({
-      status: 'padding',
+      status: 'pending',
       text: '准备下载项目依赖包...'
     });
 
@@ -48,7 +48,7 @@ function _install({ onProcess, forceInstall, projectName }: InstallParams) {
     
     installNpm.stdout.on('data', () => {
       onProcess && onProcess({
-        status: 'padding',
+        status: 'pending',
         text: '正在下载项目依赖包...'
       });
     });
@@ -56,7 +56,7 @@ function _install({ onProcess, forceInstall, projectName }: InstallParams) {
     installNpm.stdout.on('end', () => {
       console.log('install-end');
       onProcess && onProcess({
-        status: 'padding',
+        status: 'pending',
         text: '下载项目依赖包:完成'
       });
       res();
@@ -65,7 +65,7 @@ function _install({ onProcess, forceInstall, projectName }: InstallParams) {
     installNpm.stdout.on('error', err => {
       console.warn('install-报错了:', err);
       onProcess && onProcess({
-        status: 'padding',
+        status: 'pending',
         text: '下载项目依赖包:失败'
       });
       rej(err);
@@ -86,7 +86,7 @@ type DevParams = {
 function _dev({ onProcess, script, projectName }: DevParams) {
   return new Promise((res, rej) => {
     onProcess && onProcess({
-      status: 'padding',
+      status: 'pending',
       text: '准备打包...'
     });
     let runDev;
@@ -101,7 +101,7 @@ function _dev({ onProcess, script, projectName }: DevParams) {
     }
     runDev.stdout.on('data', () => {
       onProcess && onProcess({
-        status: 'padding',
+        status: 'pending',
         text: '正在打包...'
       });
     });

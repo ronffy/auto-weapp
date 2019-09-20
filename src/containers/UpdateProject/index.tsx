@@ -9,8 +9,15 @@ import { pull } from '../../cmd/git';
 import { pack } from '../../cmd/taro';
 import styles from './UpdateProject.less';
 
-export default class UpdateProject extends React.PureComponent {
-  state = {
+type State = Readonly<{
+  gitAddress: string
+  branch: string
+  enableTaro: boolean
+  taroScript: string
+}>
+
+export default class UpdateProject extends React.PureComponent<any, State> {
+  state: State = {
     gitAddress: localStorage.getItem('gitAddress') || '',
     branch: localStorage.getItem('branch') || 'master',
     enableTaro: localStorage.getItem('enableTaro') === 'true',
@@ -84,6 +91,17 @@ export default class UpdateProject extends React.PureComponent {
           // taro 压缩
           console.log('taro 压缩', taroScript);
           const projectName = getProjectName(gitAddress);
+
+
+
+
+
+          // runtime 
+          // polyfill 
+          // 区别？？？？？？？？？
+
+
+
 
           pack({
             projectName,
