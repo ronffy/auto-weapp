@@ -71,7 +71,7 @@ module.exports.common = function (env) {
     new HtmlWebpackPlugin({
       hash: true,
       minify: true,
-      title: 'Sanji 小程序自动预览、部署系统',
+      title: 'Zoro 小程序自动预览、部署系统',
       template: path.resolve(PATHS.src, './index.html')
     }),
   ];
