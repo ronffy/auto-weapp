@@ -13,8 +13,10 @@ export default class PreviewWeapp extends React.PureComponent {
   handlePreview = () => {
 
     preview({
+      version: '1.0.3',
+      projectName: 'cpa',
       onProcess({ text, status }) {
-        if (status === 'padding') {
+        if (status === 'pending') {
           console.log('loading');
           
         } else {
@@ -35,7 +37,7 @@ export default class PreviewWeapp extends React.PureComponent {
     return (
       <div>
         <Button
-          theme="primary"
+          theme="gray"
           onClick={this.handlePreview}
         >
           生成小程序预览二维码

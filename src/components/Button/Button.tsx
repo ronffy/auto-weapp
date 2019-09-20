@@ -3,7 +3,7 @@ import React, { SFC, ButtonHTMLAttributes } from 'react';
 import classNames from 'classnames';
 import styles from './Button.less';
 
-type Theme = 'default' | 'primary';
+type Theme = 'default' | 'primary' | 'gray' | 'green'
 
 interface Props extends ButtonHTMLAttributes<HTMLButtonElement> {
   className?: string

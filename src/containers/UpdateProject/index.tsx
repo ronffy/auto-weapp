@@ -72,14 +72,14 @@ export default class UpdateProject extends React.PureComponent<any, State> {
       gitAddress,
       branch,
       onProcess({ text, status }) {
-        if (status === 'padding') {
+        if (status === 'pending') {
 
         } else {
 
         }
       },
       onEnd(status) {
-          // 将项目地址、分支名称、是否使用taro，都存入缓存
+        // 将项目地址、分支名称、是否使用taro，都存入缓存
         localStorage.setItem('gitAddress', gitAddress);
         localStorage.setItem('branch', branch);
 
@@ -107,7 +107,7 @@ export default class UpdateProject extends React.PureComponent<any, State> {
             projectName,
             script: taroScript,
             onProcess({ text, status }) {
-              if (status === 'padding') {
+              if (status === 'pending') {
 
               } else {
 
@@ -128,6 +128,7 @@ export default class UpdateProject extends React.PureComponent<any, State> {
           项目地址:
           <Input
             className={classNames(styles['input-item'], styles['ml-15'])}
+            theme="dark"
             value={gitAddress}
             onChange={this.handleChangeProject}
           />
@@ -136,11 +137,12 @@ export default class UpdateProject extends React.PureComponent<any, State> {
           分支名称:
           <Input
             className={classNames(styles['input-item'], styles['ml-15'])}
+            theme="dark"
             value={branch}
             onChange={this.handleChangeBranch}
           />
         </Label>
-        <Label>
+        <div className={classNames(styles['mt-15'], styles['mb-15'])}>
           使用Taro:
           <Checkbox
             className={classNames(styles['ml-15'])}
@@ -152,6 +154,7 @@ export default class UpdateProject extends React.PureComponent<any, State> {
               ? (
                 <Input
                   className={classNames(styles['ml-15'])}
+                  theme="dark"
                   style={{ width: '50%' }}
                   value={taroScript}
                   onChange={this.handleChangeTaroScript}
@@ -159,10 +162,10 @@ export default class UpdateProject extends React.PureComponent<any, State> {
               )
               : null
           }
-        </Label>
+        </div>
         <Label >
           <Button
-            theme="primary"
+            theme="gray"
             onClick={this.handleUpdateProject}
           >
             更新小程序

@@ -22,18 +22,31 @@ export default class Content extends React.PureComponent {
 
     return (
       <div className={styles['layout-content']}>
-        <UpdateProject />
-        <Tabs
-          activeKey={activeTabKey}
-          onChange={this.handleChangeTabs}
-        >
-          <TabPane key="previewWeapp" tab="预览">
-            <PreviewWeapp />
-          </TabPane>
-          <TabPane key="uploadWeapp" tab="上传">
-            <UploadWeapp />
-          </TabPane>
-        </Tabs>
+        <div className={styles['content-container']}>
+          <div className={styles['content-view']}>
+            <Tabs
+              activeKey={activeTabKey}
+              onChange={this.handleChangeTabs}
+              paneClassName={styles['content-view-item']}
+            >
+              <TabPane
+                key="previewWeapp"
+                tab="预览"
+              >
+                <PreviewWeapp />
+              </TabPane>
+              <TabPane
+                key="uploadWeapp"
+                tab="上传"
+              >
+                <UploadWeapp />
+              </TabPane>
+            </Tabs>
+          </div>
+          <div className={styles['content-tools']}>
+            <UpdateProject />
+          </div>
+        </div>
       </div>
     )
   }

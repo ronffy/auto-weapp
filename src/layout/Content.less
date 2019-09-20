@@ -1,3 +1,31 @@
 .layout-content {
-  padding: 15px;
+  position: relative;
+  z-index: 10;
+  height: 100vh;
+  background-color: rgb(39, 40, 34);
+
+  .content-container {
+    color: #ccc;
+  }
+
+  .content-view {
+    height: 100%;
+    background-color: rgb(39, 40, 34);
+    .content-view-item {
+      padding: 15px;
+    }
+  }
+
+  .content-tools {
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    z-index: 10;
+    width: 100%;
+    padding: 15px;
+    background-color: rgb(39, 40, 34);
+    border-top-color: #414339;
+    border-top-width: 1px;
+    border-top-style: solid;
+  }
 }

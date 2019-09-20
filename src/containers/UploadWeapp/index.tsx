@@ -49,7 +49,7 @@ export default class UploadWeapp extends React.PureComponent<any, State> {
     return (
       <div>
         <Button
-          theme="primary"
+          theme="gray"
           onClick={this.handleUpload}
         >
           上传小程序代码

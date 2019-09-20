@@ -19,8 +19,17 @@
 
   &:focus {
     border-color: #40a9ff;
-    border-right-width: 1px !important;
     outline: 0;
     box-shadow: 0 0 0 2px rgba(24, 144, 255, 0.2);
+  }
+
+  &.theme-dark {
+    background-color: rgb(65, 67, 57);
+    color: rgb(204, 204, 204);
+    border-color: transparent;
+
+    &:focus {
+      border-color: #75715e;
+    }
   }
 }

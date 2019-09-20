@@ -9,6 +9,7 @@ type Props = Partial<{
   activeKey: string
   onChange: (activeKey: string, index: number) => void
   onTabClick: MouseEventHandler
+  paneClassName?: string
 }>
 
 type State = Readonly<{
@@ -62,7 +63,7 @@ class Tabs extends React.Component<Props, State> {
 
   private renderTabs = () => {
     const { activeKey } = this.state;
-    const { children, onTabClick } = this.props;
+    const { children, onTabClick, paneClassName } = this.props;
     let tabBar: ReactNode[] = [];
     let tabContent: ReactNode[] = [];
 
@@ -95,6 +96,7 @@ class Tabs extends React.Component<Props, State> {
           tabKey={_key!}
           activeKey={activeKey}
           onTabClick={onTabClick}
+            className={paneClassName}
         >
             {children}
           </TabContent>)

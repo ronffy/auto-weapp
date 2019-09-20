@@ -6,7 +6,7 @@ export default class Header extends React.PureComponent {
 
   render() {
     return (
-      <div className={styles['layout-header']}>Zoro</div>
+      <div className={styles['layout-header']}>ZORO</div>
     )
   }
 }
